@@ -1,63 +1,41 @@
-import { useEffect, useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [result, setResult] = useState("");
+  const [status, setStatus] = useState("");
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("Sending...");
 
-    const hCaptcha = event.target.querySelector(
-      'textarea[name="h-captcha-response"]'
-    )?.value;
+    const formData = new FormData(e.target);
 
-    if (!hCaptcha) {
-      setResult("Please fill out captcha field");
-      return;
-    }
-
-    setResult("Sending....");
-
-    const formData = new FormData(event.target);
-    formData.append("access_key", "--- enter your access key here -------");
-
-    const res = {
-      success: true,
-      message: "Message sent successfully",
-    };
-
-    if (res.success) {
-      setResult(res.message);
-      event.target.reset();
-    } else {
-      setResult(res.message);
-    }
-  };
-
-  function CaptchaLoader() {
-    const captchadiv = document.querySelectorAll('[data-captcha="true"]');
-    if (captchadiv.length) {
-      captchadiv.forEach((item) => {
-        if (!item.dataset.sitekey) {
-          item.dataset.sitekey =
-            "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
+    try {
+      const res = await fetch(
+        "https://formsubmit.co/ajax/vaibhavdhotre682@gmail.com",
+        {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: formData,
         }
-      });
+      );
 
-      const script = document.createElement("script");
-      script.src =
-        "https://js.hcaptcha.com/1/api.js?recaptchacompat=off";
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
+      const data = await res.json();
+
+      if (data.success) {
+        setStatus("✅ Message sent successfully!");
+        e.target.reset();
+      } else {
+        setStatus("❌ Failed to send message");
+      }
+    } catch (err) {
+      setStatus("❌ Network error");
     }
-  }
 
-  useEffect(() => {
-    CaptchaLoader();
-  }, []);
+    setTimeout(() => setStatus(""), 4000);
+  };
 
   const contactInfo = [
     {
@@ -79,23 +57,6 @@ export default function Contact() {
       link: "#",
     },
   ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  };
 
   return (
     <div
@@ -123,17 +84,11 @@ export default function Contact() {
 
       {/* Contact Cards */}
       <div className="max-w-5xl mx-auto">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {contactInfo.map((info, index) => (
             <motion.a
               key={index}
               href={info.link}
-              variants={itemVariants}
               whileHover={{ y: -5, scale: 1.02 }}
               className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 text-center"
             >
@@ -146,22 +101,16 @@ export default function Contact() {
               </p>
             </motion.a>
           ))}
-        </motion.div>
+        </div>
 
         {/* Contact Form */}
         <motion.form
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
           className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <input
-            type="hidden"
-            name="subject"
-            value="Portfolio Contact Form - New Submission"
-          />
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
             <input
               type="text"
@@ -188,25 +137,19 @@ export default function Contact() {
             className="w-full px-4 py-3 mb-6 rounded-lg border-2 border-gray-200 dark:border-gray-700 focus:border-purple-500 outline-none bg-white dark:bg-gray-900 text-gray-800 dark:text-white resize-none"
           />
 
-      
-
           <motion.button
             type="submit"
-            className="w-full py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            className="w-full py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold"
           >
             Send Message
           </motion.button>
 
-          {result && (
-            <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-4 text-center font-semibold text-gray-700 dark:text-gray-300"
-            >
-              {result}
-            </motion.p>
+          {status && (
+            <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+              {status}
+            </p>
           )}
         </motion.form>
       </div>

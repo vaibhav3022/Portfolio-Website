@@ -112,7 +112,7 @@ export default function Header() {
                     variants={itemVariants}
                     className="text-3xl sm:text-5xl lg:text-6xl font-Ovo font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent"
                 >
-                    MERN Stack Developer
+                    Software Developer
                 </motion.h1>
 
                 <motion.div

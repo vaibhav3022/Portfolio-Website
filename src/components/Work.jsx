@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 export default function Work() {
@@ -61,23 +60,24 @@ export default function Work() {
     },
   ];
 
+  /* 🔥 FAST VARIANTS */
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.06, // FAST stagger
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { y: 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.6,
+        duration: 0.28, // FAST
         ease: "easeOut",
       },
     },
@@ -85,10 +85,11 @@ export default function Work() {
 
   return (
     <div ref={ref} id="work" className="w-full px-[12%] py-20 scroll-mt-20">
+      {/* Heading */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.35 }}
       >
         <h4 className="text-center mb-2 text-lg font-Ovo text-gray-600 dark:text-gray-400">
           My Portfolio
@@ -103,27 +104,36 @@ export default function Work() {
         </p>
       </motion.div>
 
+      {/* Projects Grid */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         className="grid grid-cols-1 md:grid-cols-2 gap-8 my-10"
       >
-        {work.map((project, index) => (
+        {work.map((project) => (
           <motion.div
             key={project.name}
             variants={itemVariants}
-            whileHover={{ y: -10 }}
-            className="group relative rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500"
+            whileHover={{
+              y: -12,
+              transition: { duration: 0.15 }, // FAST hover
+            }}
+            className="group relative rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl"
           >
+            {/* Image */}
             <div
               className="aspect-video bg-cover bg-center relative overflow-hidden"
               style={{ backgroundImage: `url(${project.icon})` }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-              <motion.div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 to-orange-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-purple-600/30 to-orange-600/30 opacity-0 group-hover:opacity-100"
+                transition={{ duration: 0.2 }}
+              />
             </div>
 
+            {/* Content */}
             <div className="p-6">
               <h3 className="text-2xl font-bold mb-2 text-gray-800 dark:text-white">
                 {project.name}
@@ -132,6 +142,7 @@ export default function Work() {
                 {project.description}
               </p>
 
+              {/* Tech */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tech.map((tech, i) => (
                   <span
@@ -143,6 +154,7 @@ export default function Work() {
                 ))}
               </div>
 
+              {/* Highlights */}
               <ul className="space-y-2 mb-6">
                 {project.highlights.map((highlight, i) => (
                   <li
@@ -157,13 +169,17 @@ export default function Work() {
                 ))}
               </ul>
 
+              {/* CTA */}
               <motion.a
                 href="https://github.com/vaibhav3022/"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.15 },
+                }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg transition-shadow duration-300"
+                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg"
               >
                 View Project
                 <img
@@ -177,16 +193,20 @@ export default function Work() {
         ))}
       </motion.div>
 
+      {/* View All */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
-        transition={{ delay: 0.8 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
         className="text-center mt-16"
       >
         <motion.a
           href="#"
-          className="inline-flex items-center gap-3 px-8 py-3 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full font-semibold text-gray-700 dark:text-white transition-all duration-300"
-          whileHover={{ scale: 1.05 }}
+          className="inline-flex items-center gap-3 px-8 py-3 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full font-semibold text-gray-700 dark:text-white"
+          whileHover={{
+            scale: 1.05,
+            transition: { duration: 0.15 },
+          }}
           whileTap={{ scale: 0.95 }}
         >
           View All Projects
@@ -194,15 +214,15 @@ export default function Work() {
             src="./assets/right-arrow-bold.png"
             alt=""
             className="w-4 dark:hidden"
-            animate={{ x: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            animate={{ x: [0, 4, 0] }}
+            transition={{ duration: 0.9, repeat: Infinity }}
           />
           <motion.img
             src="./assets/right-arrow-bold-dark.png"
             alt=""
             className="w-4 hidden dark:block"
-            animate={{ x: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            animate={{ x: [0, 4, 0] }}
+            transition={{ duration: 0.9, repeat: Infinity }}
           />
         </motion.a>
       </motion.div>
