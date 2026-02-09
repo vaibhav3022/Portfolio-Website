@@ -3,7 +3,7 @@ export default function About() {
         { name: 'vscode', icon: './assets/vscode.png', },
         { name: 'firebase', icon: './assets/firebase.png', },
         { name: 'mongodb', icon: './assets/mongodb.png', },
-        { name: 'figma', icon: './assets/figma.png', },
+        { name: 'Postman', icon: './assets/postman.png', },
         { name: 'git', icon: './assets/git.png', },
     ];
 

@@ -1,7 +1,19 @@
 export default function Header() {
     return (
         <div className="w-11/12 max-w-3xl text-center mx-auto h-screen flex flex-col items-center justify-center gap-4">
-            <img src="./assets/profile.JPG" alt="" className="rounded-full w-32" />
+           <img
+  src="./assets/profile.JPG"
+  alt="Vaibhav Dhotre"
+  className="
+    w-40 h-40
+    rounded-full
+    object-cover
+    border-4 border-purple-500
+    shadow-lg shadow-purple-300/50
+    animate-float
+  "
+/>
+
             <h3 className="flex items-end gap-2 text-xl md:text-2xl mb-3 font-Ovo">
                 Hi! I&apos;m Vaibhav Dhotre
                 <img src="./assets/hand-icon.png" alt="" className="w-6 mb-1" />

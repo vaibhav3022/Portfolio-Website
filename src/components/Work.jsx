@@ -2,25 +2,25 @@ export default function Work() {
    const work = [
     {
         name: 'Real-Time Chat App',
-        icon: './assets/work-1.png', 
+        icon: './assets/work1.webp', 
         description: 'MERN Stack & Socket.io',
         link: '',
     },
     {
         name: 'Virtual White Flame',
-        icon: './assets/work-2.png',
+        icon: './assets/work2.webp',
         description: 'Dynamic Business Platform',
         link: '',
     },
     {
         name: 'E-commerce Website',
-        icon: './assets/work-3.png',
+        icon: './assets/work3.jpg',
         description: 'Online Shopping Platform',
         link: '',
     },
     {
         name: 'Secure Authentication',
-        icon: './assets/work-4.png',
+        icon: './assets/work4.jpg',
         description: 'JWT, Passport.js & Firebase',
         link: '',
     }
