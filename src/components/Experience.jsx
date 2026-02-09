@@ -7,7 +7,7 @@ export default function Experience() {
 
   const experience = [
     {
-      company: "The DataTechLabs Inc.",
+      company: "The DataTech Labs",
       location: "Bavdhan, Pune",
       role: "Software Engineer Trainee – Intern",
       period: "Nov 2025 - Present",
