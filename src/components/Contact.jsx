@@ -1,9 +1,11 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [toast, setToast] = useState(""); // For success message
+  const [loading, setLoading] = useState(false); // Optional: loading state
 
   const contactInfo = [
     {
@@ -38,6 +40,41 @@ export default function Contact() {
       opacity: 1,
       transition: { duration: 0.5, ease: "easeOut" },
     },
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default page reload
+    setLoading(true);
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(
+        "https://formsubmit.co/ajax/vaibhavdhotre682@gmail.com",
+        {
+          method: "POST",
+          body: formData,
+          headers: { Accept: "application/json" },
+        }
+      );
+
+      if (response.ok) {
+        setToast("Form submitted successfully!");
+        form.reset(); // Clear the form
+      } else {
+        const data = await response.json();
+        setToast("Oops! Something went wrong. Please try again.");
+        console.error(data);
+      }
+    } catch (error) {
+      setToast("Error submitting the form. Try again later.");
+      console.error(error);
+    }
+
+    setLoading(false);
+
+    // Hide toast after 3 seconds
+    setTimeout(() => setToast(""), 3000);
   };
 
   return (
@@ -91,26 +128,19 @@ export default function Contact() {
           ))}
         </motion.div>
 
-        {/* Contact Form – SAME UI */}
+        {/* Contact Form */}
         <motion.form
-          action="https://formsubmit.co/vaibhavdhotre682@gmail.com"
-          method="POST"
+          onSubmit={handleSubmit}
           className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {/* FormSubmit config */}
           <input type="hidden" name="_captcha" value="false" />
           <input
             type="hidden"
             name="_subject"
             value="Portfolio Contact Form - New Message"
-          />
-          <input
-            type="hidden"
-            name="_next"
-            value="https://your-vercel-domain.vercel.app/#contact"
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
@@ -121,7 +151,6 @@ export default function Contact() {
               required
               className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 focus:border-purple-500 outline-none bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
             />
-
             <input
               type="email"
               name="email"
@@ -141,12 +170,20 @@ export default function Contact() {
 
           <motion.button
             type="submit"
-            className="w-full py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg"
+            disabled={loading}
+            className="w-full py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            Send Message
+            {loading ? "Sending..." : "Send Message"}
           </motion.button>
+
+          {/* Toast Notification */}
+          {toast && (
+            <div className="mt-4 text-center text-green-600 dark:text-green-400 font-semibold">
+              {toast}
+            </div>
+          )}
         </motion.form>
       </div>
     </div>
