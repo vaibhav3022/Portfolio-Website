@@ -1,106 +1,215 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 export default function Contact() {
-    const [result, setResult] = useState("");
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        const hCaptcha = event.target.querySelector('textarea[name=h-captcha-response]').value;
-        if (!hCaptcha) {
-            event.preventDefault();
-            setResult("Please fill out captcha field");
-            return
-        }
-        setResult("Sending....");
-        const formData = new FormData(event.target);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [result, setResult] = useState("");
 
-        // ----- Enter your Web3 Forms Access key below---------
+  const onSubmit = async (event) => {
+    event.preventDefault();
 
-        formData.append("access_key", "--- enter your access key here-------");
+    const hCaptcha = event.target.querySelector(
+      'textarea[name="h-captcha-response"]'
+    )?.value;
 
-        const res = {
-            success: true,
-            message: "Message sent successfully"
-        };
-        // const res = await fetch("https://api.web3forms.com/submit", {
-        //     method: "POST",
-        //     body: formData
-        // }).then((res) => res.json());
-
-        if (res.success) {
-            console.log("Success", res);
-            setResult(res.message);
-            event.target.reset();
-        } else {
-            console.log("Error", res);
-            setResult(res.message);
-        }
-    };
-
-    function CaptchaLoader() {
-        const captchadiv = document.querySelectorAll('[data-captcha="true"]');
-        if (captchadiv.length) {
-            let lang = null;
-            let onload = null;
-            let render = null;
-
-            captchadiv.forEach(function (item) {
-                const sitekey = item.dataset.sitekey;
-                lang = item.dataset.lang;
-                onload = item.dataset.onload;
-                render = item.dataset.render;
-
-                if (!sitekey) {
-                    item.dataset.sitekey = "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
-                }
-            });
-
-            let scriptSrc = "https://js.hcaptcha.com/1/api.js?recaptchacompat=off";
-            if (lang) {
-                scriptSrc += `&hl=${lang}`;
-            }
-            if (onload) {
-                scriptSrc += `&onload=${onload}`;
-            }
-            if (render) {
-                scriptSrc += `&render=${render}`;
-            }
-
-            var script = document.createElement("script");
-            script.type = "text/javascript";
-            script.async = true;
-            script.defer = true;
-            script.src = scriptSrc;
-            document.body.appendChild(script);
-        }
+    if (!hCaptcha) {
+      setResult("Please fill out captcha field");
+      return;
     }
 
-    useEffect(() => {
-        CaptchaLoader();
-    }, []);
-    return (
-        <div id="contact" className="w-full px-[12%] py-10 scroll-mt-20 bg-[url('./assets/footer-bg-color.png')] bg-no-repeat bg-[length:90%_auto] bg-center dark:bg-none">
+    setResult("Sending....");
 
-            <h4 className="text-center mb-2 text-lg font-Ovo">Connect with me</h4>
-            <h2 className="text-center text-5xl font-Ovo">Get in touch</h2>
-            <p className="text-center max-w-2xl mx-auto mt-5 mb-12 font-Ovo">I&apos;d love to hear from you! If you have any questions, comments or feedback, please use the form below.</p>
+    const formData = new FormData(event.target);
+    formData.append("access_key", "--- enter your access key here -------");
 
-            <form onSubmit={onSubmit} className="max-w-2xl mx-auto">
+    const res = {
+      success: true,
+      message: "Message sent successfully",
+    };
 
-                <input type="hidden" name="subject" value="Eliana Jade - New form Submission" />
+    if (res.success) {
+      setResult(res.message);
+      event.target.reset();
+    } else {
+      setResult(res.message);
+    }
+  };
 
-                <div className="grid grid-cols-auto gap-6 mt-10 mb-8">
-                    <input type="text" placeholder="Enter your name" className="flex-1 px-3 py-2 focus:ring-1 outline-none border border-gray-300 dark:border-white/30 rounded-md bg-white dark:bg-darkHover/30" required name="name" />
+  function CaptchaLoader() {
+    const captchadiv = document.querySelectorAll('[data-captcha="true"]');
+    if (captchadiv.length) {
+      captchadiv.forEach((item) => {
+        if (!item.dataset.sitekey) {
+          item.dataset.sitekey =
+            "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
+        }
+      });
 
-                    <input type="email" placeholder="Enter your email" className="flex-1 px-3 py-2 focus:ring-1 outline-none border border-gray-300 dark:border-white/30 rounded-md bg-white dark:bg-darkHover/30" required name="email" />
-                </div>
-                <textarea rows="6" placeholder="Enter your message" className="w-full px-4 py-2 focus:ring-1 outline-none border border-gray-300 dark:border-white/30 rounded-md bg-white mb-6 dark:bg-darkHover/30" required name="message"></textarea>
-                <div className="h-captcha mb-6 max-w-full" data-captcha="true"></div>
-                <button type='submit' className="py-2 px-8 w-max flex items-center justify-between gap-2 bg-black/80 text-white rounded-full mx-auto hover:bg-black duration-500 dark:bg-transparent dark:border dark:border-white/30 dark:hover:bg-darkHover">
-                Submit now
-                    <img src="./assets/right-arrow-white.png" alt="" className="w-4" />
-                </button>
-                <p className='mt-4'>{result}</p>
-            </form>
-        </div>
-    )
+      const script = document.createElement("script");
+      script.src =
+        "https://js.hcaptcha.com/1/api.js?recaptchacompat=off";
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  }
+
+  useEffect(() => {
+    CaptchaLoader();
+  }, []);
+
+  const contactInfo = [
+    {
+      icon: "📧",
+      title: "Email",
+      value: "vaibhavdhotre682@gmail.com",
+      link: "mailto:vaibhavdhotre682@gmail.com",
+    },
+    {
+      icon: "📱",
+      title: "Phone",
+      value: "+91-9021850960",
+      link: "tel:+919021850960",
+    },
+    {
+      icon: "📍",
+      title: "Location",
+      value: "Pune, Maharashtra, India",
+      link: "#",
+    },
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
+  return (
+    <div
+      ref={ref}
+      id="contact"
+      className="w-full px-[8%] sm:px-[12%] py-20 scroll-mt-20 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900/30"
+    >
+      {/* Heading */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+      >
+        <h4 className="text-center mb-2 text-lg font-Ovo text-gray-600 dark:text-gray-400">
+          Connect With Me
+        </h4>
+        <h2 className="text-center text-4xl sm:text-5xl font-Ovo font-bold mb-4 bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
+          Get In Touch
+        </h2>
+        <p className="text-center max-w-2xl mx-auto mt-5 mb-16 font-Ovo text-gray-600 dark:text-gray-400 leading-relaxed">
+          I'd love to hear from you! Whether you have a question, want to
+          collaborate, or just want to say hi, feel free to reach out.
+        </p>
+      </motion.div>
+
+      {/* Contact Cards */}
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
+        >
+          {contactInfo.map((info, index) => (
+            <motion.a
+              key={index}
+              href={info.link}
+              variants={itemVariants}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 text-center"
+            >
+              <div className="text-4xl mb-3">{info.icon}</div>
+              <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">
+                {info.title}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                {info.value}
+              </p>
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Contact Form */}
+        <motion.form
+          onSubmit={onSubmit}
+          className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <input
+            type="hidden"
+            name="subject"
+            value="Portfolio Contact Form - New Submission"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              required
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 focus:border-purple-500 outline-none bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              required
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 focus:border-purple-500 outline-none bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+            />
+          </div>
+
+          <textarea
+            rows="6"
+            name="message"
+            placeholder="Your Message"
+            required
+            className="w-full px-4 py-3 mb-6 rounded-lg border-2 border-gray-200 dark:border-gray-700 focus:border-purple-500 outline-none bg-white dark:bg-gray-900 text-gray-800 dark:text-white resize-none"
+          />
+
+      
+
+          <motion.button
+            type="submit"
+            className="w-full py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Send Message
+          </motion.button>
+
+          {result && (
+            <motion.p
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-4 text-center font-semibold text-gray-700 dark:text-gray-300"
+            >
+              {result}
+            </motion.p>
+          )}
+        </motion.form>
+      </div>
+    </div>
+  );
 }

@@ -4,6 +4,7 @@ export default {
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
+    darkMode: 'selector',
     theme: {
         extend: {
             gridTemplateColumns: {
@@ -14,7 +15,15 @@ export default {
                 Ovo: ["Ovo", "serif"]
             },
             animation: {
-                spin_slow: 'spin 6s linear infinite'
+                spin_slow: 'spin 6s linear infinite',
+                float: 'float 3s ease-in-out infinite',
+                pulse_slow: 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+                float: {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-20px)' },
+                }
             },
             colors: {
                 lightHover: '#fcf4ff',
@@ -27,6 +36,5 @@ export default {
             }
         },
     },
-    darkMode: 'selector',
     plugins: [],
 }
