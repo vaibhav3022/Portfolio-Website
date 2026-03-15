@@ -1,40 +1,71 @@
-# Eliana - React JS Portfolio Template
-#### Preview
+# Vaibhav Dhotre — Portfolio Website
 
- - [Demo](https://themewagon.github.io/eliana-react/)
+Live demo: **https://vaibhavdhotre-portfolio.vercel.app/**
 
-#### Download
- - [Download from ThemeWagon](https://themewagon.com/themes/eliana-react/)
+## About
+
+This is my personal portfolio website built with **React**, **Vite**, and **Tailwind CSS**. It showcases my skills, experience, projects, and ways to contact me.
+
+## Features
+
+- Responsive layout (mobile/tablet/desktop)
+- Smooth scroll sections
+- About, Services, Experience, Work, and Contact sections
+- Project showcase with external links
+- Contact form (front-end UI)
+
+## Tech Stack
+
+- React (JSX)
+- Vite (fast dev + build)
+- Tailwind CSS
+- Lenis smooth scrolling
 
 ## Getting Started
 
-1. Clone Repository
-```
+### 1) Clone repository
+
+```bash
 git clone https://github.com/themewagon/eliana-react.git
+cd Portfolio-Website
 ```
-2. Install Dependencies
+
+> ✅ *Tip:* If you forked or cloned a personalized repo, update the remote URL as needed.
+
+### 2) Install dependencies
+
+```bash
+npm install
 ```
-npm i
-```
-3. Run the development server:
+
+### 3) Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-## Author 
+Open the URL shown in the terminal (usually `http://localhost:5173`).
+
+## Build for Production
+
+```bash
+npm run build
 ```
-Design and code is completely written by PrebuiltUI and development team. 
-```
+
+## Deployment
+
+This project is deployed on **Vercel**:
+
+- https://vaibhavdhotre-portfolio.vercel.app/
+
+## Project Structure
+
+- `src/` – main React app
+  - `components/` – UI components (Header, Navbar, Work, Contact, etc.)
+  - `App.jsx` – top-level layout
+  - `main.jsx` – app entrypoint
+- `public/` – static assets
 
 ## License
 
- - Design and Code is Copyright &copy; <a href="https://prebuiltui.com/" target="_blank">PrebuiltUI</a>
- - Licensed cover under [MIT]
- - Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+This project is released under the **MIT License**.
