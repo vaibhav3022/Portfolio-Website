@@ -26,7 +26,7 @@ This is my personal portfolio website built with **React**, **Vite**, and **Tail
 ### 1) Clone repository
 
 ```bash
-git clone https://github.com/themewagon/eliana-react.git
+git clone https://github.com/vaibhav3022/Portfolio-Website.git
 cd Portfolio-Website
 ```
 
@@ -66,6 +66,6 @@ This project is deployed on **Vercel**:
   - `main.jsx` – app entrypoint
 - `public/` – static assets
 
-## License
 
-This project is released under the **MIT License**.
+
+
