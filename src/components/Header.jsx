@@ -153,7 +153,7 @@ export default function Header() {
   </motion.a>
 
   <motion.a
-    href="/assets/Vaibhav-Dhotre.pdf"
+    href="/assets/Vaibhav_Dhotre.pdf"
     download
     className="px-10 py-3 rounded-full border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-2 bg-white dark:bg-transparent dark:text-white font-medium transition-all duration-300"
     whileHover={{ scale: 1.05 }}
