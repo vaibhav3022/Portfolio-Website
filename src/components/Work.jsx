@@ -17,7 +17,7 @@ export default function Work() {
         "Real-time notifications",
         "Online/offline status tracking",
       ],
-      link: "",
+      link: "https://real-time-chat-app123.vercel.app/",
     },
     {
       name: "Virtual White Flame",
@@ -30,7 +30,7 @@ export default function Work() {
         "90% faster content updates",
         "Responsive cross-device design",
       ],
-      link: "",
+      link: "https://virtual-white-flame.vercel.app",
     },
     {
       name: "E-commerce Platform",
@@ -43,7 +43,7 @@ export default function Work() {
         "Cart & checkout system",
         "Order tracking dashboard",
       ],
-      link: "",
+      link: "https://ecommerce-website.dhotrev384.workers.dev",
     },
     {
       name: "Authentication System",
@@ -56,7 +56,7 @@ export default function Work() {
         "Session management",
         "Email verification system",
       ],
-      link: "",
+      link: "https://github.com/vaibhav3022/",
     },
   ];
 
@@ -171,7 +171,7 @@ export default function Work() {
 
               {/* CTA */}
               <motion.a
-                href="https://github.com/vaibhav3022/"
+                href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{
